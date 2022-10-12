@@ -6,33 +6,17 @@
 *.env
 .DS_Store
 .cache/
-.mypy_cache/
-.coverage
 settings.json
+
+# Testing
+app/coverage
+app/.coverage
+app/.mypy_cache/
+app/.pytest_cache/
 
 # Distribution / packaging
 .Python
-.pytest_cache
 .python-version
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-logs/
-parts/
-sdist/
-share/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -47,15 +31,10 @@ include/
 pip-selfcheck.json
 lib64
 
-#Telegram Sessions
+# Telegram Sessions
 *.session
 *.session-journal
 
-#Downloaded documents
-documents/
-audio/
-document/
-photo/
-voice/
-video/
-video_note/
+# Downloaded media items
+downloads/
+!downloads/.gitkeep

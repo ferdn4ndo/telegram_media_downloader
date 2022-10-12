@@ -2,6 +2,7 @@
 import asyncio
 import logging
 import os
+import time
 from typing import List, Optional, Tuple, Union
 
 import pyrogram
@@ -25,6 +26,7 @@ logging.getLogger("pyrogram.client").addFilter(LogFilter())
 logger = logging.getLogger("media_downloader")
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+DOWNLOADS_DIR = os.getenv("DOWNLOADS_DIR", "/home/worker/downloads")
 FAILED_IDS: list = []
 DOWNLOADED_IDS: list = []
 
@@ -118,7 +120,7 @@ async def _get_media_meta(
         # pylint: disable = C0209
         file_format = media_obj.mime_type.split("/")[-1]  # type: ignore
         file_name: str = os.path.join(
-            THIS_DIR,
+            DOWNLOADS_DIR,
             _type,
             "{}_{}.{}".format(
                 _type,
@@ -128,7 +130,7 @@ async def _get_media_meta(
         )
     else:
         file_name = os.path.join(
-            THIS_DIR, _type, getattr(media_obj, "file_name", None) or ""
+            DOWNLOADS_DIR, _type, getattr(media_obj, "file_name", None) or ""
         )
     return file_name, file_format
 
@@ -353,8 +355,7 @@ async def begin_import(config: dict, pagination_limit: int) -> dict:
     return config
 
 
-def main():
-    """Main function of the downloader."""
+def update_config_and_check():
     with open(os.path.join(THIS_DIR, "config.yaml")) as f:
         config = yaml.safe_load(f)
     updated_config = asyncio.get_event_loop().run_until_complete(
@@ -369,6 +370,14 @@ def main():
         )
     update_config(updated_config)
     check_for_updates()
+
+
+def main():
+    """Main function of the downloader."""
+    while True:
+        update_config_and_check()
+        logger.info("Sleeping for 30 minutes before checking again...")
+        time.sleep(30 * 60)
 
 
 if __name__ == "__main__":

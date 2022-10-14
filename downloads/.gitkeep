@@ -1,0 +1,2 @@
+# This file is used just to keep the downloads folder created. It'll prevent a mapping error in docker compose when
+# it is not found. Any other file/folder inside this one will be ignored by git.

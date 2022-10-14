@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  telegram-media-downloader:
+    container_name: telegram-media-downloader
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./app:/home/worker/app
+      - ./downloads:/home/worker/downloads
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true

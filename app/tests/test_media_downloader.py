@@ -15,9 +15,9 @@ from media_downloader import (
     _is_exist,
     begin_import,
     download_media,
-    main,
     process_messages,
     update_config,
+    update_config_and_check,
 )
 
 MOCK_DIR: str = "/root/project"
@@ -248,7 +248,7 @@ class MediaDownloaderTestCase(unittest.TestCase):
         self.assertEqual(
             (
                 platform_generic_path(
-                    "/root/project/voice/voice_2019-07-25T14:53:50.ogg"
+                    "/home/worker/downloads/voice/voice_2019-07-25T14:53:50.ogg"
                 ),
                 "ogg",
             ),
@@ -266,7 +266,7 @@ class MediaDownloaderTestCase(unittest.TestCase):
         )
         self.assertEqual(
             (
-                platform_generic_path("/root/project/photo/"),
+                platform_generic_path("/home/worker/downloads/photo/"),
                 None,
             ),
             result,
@@ -286,7 +286,7 @@ class MediaDownloaderTestCase(unittest.TestCase):
         )
         self.assertEqual(
             (
-                platform_generic_path("/root/project/document/sample_document.pdf"),
+                platform_generic_path("/home/worker/downloads/document/sample_document.pdf"),
                 "pdf",
             ),
             result,
@@ -306,7 +306,7 @@ class MediaDownloaderTestCase(unittest.TestCase):
         )
         self.assertEqual(
             (
-                platform_generic_path("/root/project/audio/sample_audio.mp3"),
+                platform_generic_path("/home/worker/downloads/audio/sample_audio.mp3"),
                 "mp3",
             ),
             result,
@@ -325,7 +325,7 @@ class MediaDownloaderTestCase(unittest.TestCase):
         )
         self.assertEqual(
             (
-                platform_generic_path("/root/project/video/"),
+                platform_generic_path("/home/worker/downloads/video/"),
                 "mp4",
             ),
             result,
@@ -346,7 +346,7 @@ class MediaDownloaderTestCase(unittest.TestCase):
         self.assertEqual(
             (
                 platform_generic_path(
-                    "/root/project/video_note/video_note_2019-07-25T14:53:50.mp4"
+                    "/home/worker/downloads/video_note/video_note_2019-07-25T14:53:50.mp4"
                 ),
                 "mp4",
             ),
@@ -612,14 +612,14 @@ class MediaDownloaderTestCase(unittest.TestCase):
     @mock.patch("media_downloader.update_config", return_value=True)
     @mock.patch("media_downloader.begin_import")
     @mock.patch("media_downloader.asyncio", new=MockAsync())
-    def test_main(self, mock_import, mock_update, mock_yaml):
+    def test_update_config_and_check(self, mock_import, mock_update, mock_yaml):
         conf = {
             "api_id": 1,
             "api_hash": "asdf",
             "ids_to_retry": [1, 2],
         }
         mock_yaml.return_value = conf
-        main()
+        update_config_and_check()
         mock_import.assert_called_with(conf, pagination_limit=100)
         conf["ids_to_retry"] = [1, 2, 3]
         mock_update.assert_called_with(conf)

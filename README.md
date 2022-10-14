@@ -2,64 +2,101 @@
 <h1 align="center">Telegram Media Downloader</h1>
 
 <p align="center">
-<a href="https://github.com/Dineshkarthik/telegram_media_downloader/actions"><img alt="Unittest" src="https://github.com/Dineshkarthik/telegram_media_downloader/workflows/Unittest/badge.svg"></a>
-<a href="https://codecov.io/gh/Dineshkarthik/telegram_media_downloader"><img alt="Coverage Status" src="https://codecov.io/gh/Dineshkarthik/telegram_media_downloader/branch/master/graph/badge.svg"></a>
-<a href="https://github.com/Dineshkarthik/telegram_media_downloader/blob/master/LICENSE"><img alt="License: MIT" src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
+<a href="https://github.com/ferdn4ndo/telegram_media_downloader/actions"><img alt="Unittest" src="https://github.com/ferdn4ndo/telegram_media_downloader/workflows/Unittest/badge.svg"></a>
+<a href="https://codecov.io/gh/ferdn4ndo/telegram_media_downloader"><img alt="Coverage Status" src="https://codecov.io/gh/ferdn4ndo/telegram_media_downloader/branch/master/graph/badge.svg"></a>
+<a href="https://github.com/ferdn4ndo/telegram_media_downloader/blob/master/LICENSE"><img alt="License: MIT" src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
 <a href="https://github.com/python/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
 <h3 align="center">
-  <a href="https://github.com/Dineshkarthik/telegram_media_downloader/discussions/categories/ideas">Feature request</a>
+  <a href="https://github.com/ferdn4ndo/telegram_media_downloader/discussions/categories/ideas">Feature request</a>
   <span> · </span>
-  <a href="https://github.com/Dineshkarthik/telegram_media_downloader/issues">Report a bug</a>
+  <a href="https://github.com/ferdn4ndo/telegram_media_downloader/issues">Report a bug</a>
   <span> · </span>
-  Support: <a href="https://github.com/Dineshkarthik/telegram_media_downloader/discussions">Discussions</a>
+  Support: <a href="https://github.com/ferdn4ndo/telegram_media_downloader/discussions">Discussions</a>
   <span> & </span>
   <a href="https://t.me/tgmdnews">Telegram Community</a>
 </h3>
 
-### Overview:
+**DISCLAIMER**: *This repository was forked from [Dineshkarthik's telegram_media_downloader](https://github.com/Dineshkarthik/telegram_media_downloader). Many thanks to the original author, and please consider supporting him too.*
+
+## Overview
+
 Download all media files from a conversation or a channel that you are a part of from telegram.
 A meta of last read/downloaded message is stored in the config file so that in such a way it won't download the same media file again.
 
-### Support:
-| Category | Support |
-|--|--|
-|Language | `Python 3.7 ` and above|
-|Download media types|  audio, document, photo, video, video_note, voice|
+### Summary
 
-### ToDo:
+* [Overview](#overview)
+  * [Summary](#summary)
+  * [Specifications](#specifications)
+  * [ToDo](#todo)
+* [Installation](#installation)
+  * [Configuration](#configuration)
+  * [Getting your API Keys](#getting-your-api-keys)
+  * [Getting the chat ID](#getting-the-chat-id)
+    * [A - Using Web Telegram](#a---using-web-telegram)
+    * [B - Using Telegram Bot](#b---using-telegram-bot)
+  * [Filling the config.yaml file](#filling-the-configyaml-file)
+* [Running](#running)
+  * [In Production](#in-production)
+  * [In Development](#in-development)
+* [Testing](#testing)
+  * [Executing the complete test suite](#executing-the-complete-test-suite)
+  * [Executing only PyLint](#executing-only-pylint)
+  * [Executing only Static Type Check](#executing-only-static-type-check)
+  * [Executing only the UTs](#executing-only-the-uts)
+* [Usage with Proxy](#usage-with-proxy)
+* [Contributing](#contributing)
+  * [Contributing Guidelines](#contributing-guidelines)
+  * [Want to Help?](#want-to-help)
+  * [Code of Conduct](#code-of-conduct)
+
+### Specifications
+
+* Requires docker installed and running. Please refer [to this link](https://docs.docker.com/engine/install/) for more information;
+* Supports downloading the following media types: 
+  * audio
+  * document
+  * photo
+  * video
+  * video_note
+  * voice
+
+### ToDo
 - Add support for multiple channels/chats.
 
-### Installation
+## Installation
 
-For *nix os distributions with `make` availability
+First clone the repository
+
 ```sh
-$ git clone https://github.com/Dineshkarthik/telegram_media_downloader.git
+$ git clone https://github.com/ferdn4ndo/telegram_media_downloader.git
 $ cd telegram_media_downloader
-$ make install
 ```
-For Windows which doesn't have `make` inbuilt
+
+Then copy the `.env.template` file to `.env`:
 ```sh
-$ git clone https://github.com/Dineshkarthik/telegram_media_downloader.git
-$ cd telegram_media_downloader
-$ pip3 install -r requirements.txt
+$ cp .env.template .env
 ```
+
+For regular usage, there's no need to edit the `.env` values.
+To configure the account & chat settings, please refer to the next section.
 
 ## Configuration
 
 All the configurations are  passed to the Telegram Media Downloader via `config.yaml` file.
 
-**Getting your API Keys:**
+### Getting your API Keys
 The very first step requires you to obtain a valid Telegram API key (API id/hash pair):
 1.  Visit  [https://my.telegram.org/apps](https://my.telegram.org/apps)  and log in with your Telegram Account.
 2.  Fill out the form to register a new Telegram application.
 3.  Done! The API key consists of two parts:  **api_id**  and  **api_hash**.
 
 
-**Getting chat id:**
+### Getting the chat ID
 
-**1. Using web telegram:**
+#### A - Using Web Telegram
 1. Open https://web.telegram.org/?legacy=1#/im
 2. Now go to the chat/channel and you will see the URL as something like
 	- `https://web.telegram.org/?legacy=1#/im?p=u853521067_2449618633394` here `853521067` is the chat id.
@@ -68,7 +105,7 @@ The very first step requires you to obtain a valid Telegram API key (API id/hash
 	- `https://web.telegram.org/?legacy=1#/im?p=c1301254321_6925449697188775560` here take `1301254321` and add `-100` to the start of the id => `-1001301254321`.
 
 
-**2. Using bot:**
+#### B - Using Telegram Bot
 1. Use [@username_to_id_bot](https://t.me/username_to_id_bot) to get the chat_id of
     - almost any telegram user: send username to the bot or just forward their message to the bot
     - any chat: send chat username or copy and send its joinchat link to the bot
@@ -76,7 +113,7 @@ The very first step requires you to obtain a valid Telegram API key (API id/hash
     - id of any telegram bot
 
 
-### config.yaml
+### Filling the config.yaml file
 ```yaml
 api_hash: your_api_hash
 api_id: your_api_id
@@ -99,30 +136,83 @@ file_formats:
   - mp4
 ```
 
-- api_hash  - The api_hash you got from telegram apps
-- api_id - The api_id you got from telegram apps
-- chat_id -  The id of the chat/channel you want to download media. Which you get from the above-mentioned steps.
-- last_read_message_id - If it is the first time you are going to read the channel let it be `0` or if you have already used this script to download media it will have some numbers which are auto-updated after the scripts successful execution. Don't change it.
-- ids_to_retry - `Leave it as it is.` This is used by the downloader script to keep track of all skipped downloads so that it can be downloaded during the next execution of the script.
-- media_types - Type of media to download, you can update which type of media you want to download it can be one or any of the available types.
-- file_formats - File types to download for supported media types which are `audio`, `document` and `video`. Default format is `all`, downloads all files.
+- **api_hash**: The api_hash you got from telegram apps
+- **api_id**: The api_id you got from telegram apps
+- **chat_id**:  The id of the chat/channel you want to download media. Which you get from the above-mentioned steps.
+- **last_read_message_id**: If it is the first time you are going to read the channel let it be `0` or if you have already used this script to download media it will have some numbers which are auto-updated after the scripts successful execution. Don't change it.
+- **ids_to_retry**: `Leave it as it is.` This is used by the downloader script to keep track of all skipped downloads so that it can be downloaded during the next execution of the script.
+- **media_types**: Type of media to download, you can update which type of media you want to download it can be one or any of the available types.
+- **file_formats**: File types to download for supported media types which are `audio`, `document` and `video`. Default format is `all`, downloads all files.
 
-## Execution
+## Running
+
+### In Production
+
 ```sh
-$ python3 media_downloader.py
+$ docker compose -f docker-compose.yml up --build
 ```
-All the downloaded media will be stored inside  respective direcotry named  in the same path as the python script.
 
-| Media type | Download directory |
-|--|--|
-| audio | path/to/project/audio |
-| document | path/to/project/document |
-| photo | path/to/project/photo |
-| video | path/to/project/video |
-| voice | path/to/project/voice |
-| voice_note | path/to/project/voice_note |
+### In Development
 
-## Proxy
+```sh
+$ docker compose -f docker-compose.dev.yml up --build
+```
+
+The docker image will be built (if not cached), the dependencies will be installed and the downloaded media will be stored inside the `downloads/` directory (inside the root project folder).
+
+The files will be divided by types, according to the mapping:
+
+* audio => `/downloads/audio`
+* document => `/downloads/document`
+* photo => `/downloads/photo`
+* video => `/downloads/video`
+* voice => `/downloads/voice`
+* voice_note => `/downloads/voice_note`
+
+## Testing
+
+**WARNING: The testing tools are only available when running the application in DEVELOPMENT mode!**
+
+### Executing the complete test suite
+
+To execute the complete test suite (PyLint + Static Type Check + UTs), please first make sure that the `telegram-media-download` container is up and running, then execute the following command:
+
+```sh
+$ docker exec -it telegram-media-downloader sh -c "./run_tests.sh"
+```
+
+### Executing only PyLint
+
+If you want to execute only the PyLint test, please first make sure that the `telegram-media-download` container is up and running, then execute the following command:
+
+```sh
+$ docker exec -it telegram-media-downloader sh -c "pylint media_downloader.py utils -r y"
+```
+
+### Executing only Static Type Check
+
+If you want to execute only the Static Type Check test, please first make sure that the `telegram-media-download` container is up and running, then execute the following command:
+
+```sh
+$ docker exec -it telegram-media-downloader sh -c "mypy media_downloader.py utils --ignore-missing-imports"
+```
+
+### Executing only the UTs
+
+If you want to execute only the Unit Tests, please first make sure that the `telegram-media-download` container is up and running, then execute the following command:
+
+```sh
+$ docker exec -it telegram-media-downloader sh -c "py.test \
+    --cov media_downloader --doctest-modules \
+    --cov utils \
+    --cov-report term-missing \
+    --cov-report html:/home/worker/app/coverage \
+	--junit-xml=/home/worker/app/coverage/media-downloader.xml \
+	tests/"
+```
+
+## Usage with Proxy
+
 `socks4, socks5, http` proxies are supported in this project currently. To use it, add the following to the bottom of your `config.yaml` file
 
 ```yaml
@@ -136,11 +226,15 @@ proxy:
 If your proxy doesn’t require authorization you can omit username and password. Then the proxy will automatically be enabled.
 
 ## Contributing
+
 ### Contributing Guidelines
-Read through our [contributing guidelines](https://github.com/Dineshkarthik/telegram_media_downloader/blob/master/CONTRIBUTING.md) to learn about our submission process, coding rules and more.
+
+Read through our [contributing guidelines](https://github.com/ferdn4ndo/telegram_media_downloader/blob/master/CONTRIBUTING.md) to learn about our submission process, coding rules and more.
 
 ### Want to Help?
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for [contributing](https://github.com/Dineshkarthik/telegram_media_downloader/blob/master/CONTRIBUTING.md).
+
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for [contributing](https://github.com/ferdn4ndo/telegram_media_downloader/blob/master/CONTRIBUTING.md).
 
 ### Code of Conduct
-Help us keep Telegram Media Downloader open and inclusive. Please read and follow our [Code of Conduct](https://github.com/Dineshkarthik/telegram_media_downloader/blob/master/CODE_OF_CONDUCT.md).
+
+Help us keep Telegram Media Downloader open and inclusive. Please read and follow our [Code of Conduct](https://github.com/ferdn4ndo/telegram_media_downloader/blob/master/CODE_OF_CONDUCT.md).
